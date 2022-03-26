@@ -1,12 +1,30 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  <div>
+    <NavBar />
+  </div>
 </template>
 
-<style lang="scss">
+<script>
+import NavBar from "@/components/NavBar";
+
+export default {
+  components: { NavBar },
+  name: "App",
+};
+</script>
+
+<style>
+@font-face {
+  font-family: "Pokemon Classic";
+  src: local("Pokemon Classic"),
+    url(./fonts/Pokemon_Classic.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Pokemon Pixels 1";
+  src: local("Pokemon Pixels 1"), url(./fonts/POKPIX1.ttf) format("truetype");
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -15,16 +33,16 @@
   color: #2c3e50;
 }
 
-nav {
+#nav {
   padding: 30px;
+}
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+#nav a {
+  font-weight: bold;
+  color: #2c3e50;
+}
 
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+#nav a.router-link-exact-active {
+  color: #42b983;
 }
 </style>
