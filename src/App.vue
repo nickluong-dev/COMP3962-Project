@@ -1,6 +1,11 @@
 <template>
   <div>
     <NavBar />
+    <div class="flex justify-center w-full min-h-screen pt-16 transition-all duration-150 ease-in-out md:pt-0 md:px-10" :class="margin">
+        <div class="w-full py-6 pl-3 pr-3 lg:p-10 max-w-screen-2xl">
+            <RouterView />
+        </div>
+    </div>
   </div>
 </template>
 

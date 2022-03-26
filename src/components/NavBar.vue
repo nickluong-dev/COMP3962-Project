@@ -1,8 +1,6 @@
 <template>
   <div
-    id="navBar"
-    class="nav bg-rose-400 p-3">
-    
+    id="navBar" class="nav bg-rose-400 p-3">
     <section class="flex justify-between items-end">
       <h1 class="title text-rose-100"><span class="pokemons text-amber-300 text-4xl pl-3 pr-10">R</span>PokeMart</h1> 
       <section class="flex">
@@ -11,17 +9,18 @@
       </section>
     </section>
     <!-- <div class="pokemons text-black tracking-widest text-2xl py-3">gdfxahty412hsdfampqwfbxcz0941</div> -->
-    
   </div>
-  <router-view />
 </template>
 
+
 <script>
+
 export default {
-  setup() {
-    return {};
-  },
-};
+  setup () {
+    return {
+    }
+  }
+}
 </script>
 
 <style scoped>
