@@ -11,7 +11,21 @@ async function getFetch(url, params) {
     }
 }
 
-export async function fetchPokemonData(limit, offset) {
-    const response = await getFetch(`https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`)
+export async function fetchPokemons(limit, offset) {
+    const response = await getFetch(
+        `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`
+    )
+    return response
+}
+
+export async function fetchPokemonData(url) {
+    const response = await getFetch(url)
+    return response
+}
+
+export async function fetchCharmander() {
+    const response = await getFetch(
+        'https://pokeapi.co/api/v2/pokemon/charmander'
+    )
     return response
 }

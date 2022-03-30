@@ -1,13 +1,18 @@
 <template>
-  <div></div>
+    <FrontPageGrid />
 </template>
 
 <script>
+import FrontPageGrid from '@/components/FrontPageGrid.vue'
+
 export default {
-  setup() {
-    return {};
-  },
-};
+    components: {
+        FrontPageGrid
+    },
+    setup() {
+        return {}
+    }
+}
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped></style>
