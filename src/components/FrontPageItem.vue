@@ -59,7 +59,7 @@
                 </div>
 
                 <transition name="slide">
-                    <div v-if="expanded" transition="slide">
+                    <div v-if="expanded">
                         <section
                             v-if="state.pokemonInfo"
                             class="text-body text-left pt-2"
@@ -114,8 +114,9 @@ export default {
         const store = useStore()
 
         const buy = (payload) => {
+            payload.id = uid()
             store.dispatch('add', payload)
-            console.log(store.state.cart)
+
             buyAnimation()
         }
 
@@ -144,6 +145,17 @@ export default {
                 data: state.pokemonInfo
             }
         })
+
+        const uid = () => {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(
+                /[xy]/g,
+                function (c) {
+                    var r = (Math.random() * 16) | 0,
+                        v = c == 'x' ? r : (r & 0x3) | 0x8
+                    return v.toString(16)
+                }
+            )
+        }
 
         return {
             expanded: ref(false),
@@ -174,6 +186,11 @@ export default {
     font-size: 0.8em;
 }
 
+.round-line {
+    border-top: 2px solid;
+    border-radius: 0px;
+}
+
 /* Detail slide transition */
 .slide-enter-active,
 .slide-leave-active {
@@ -196,11 +213,6 @@ export default {
 .load-enter-active,
 .load-leave-active {
     transition: all 3s ease;
-}
-
-.round-line {
-    border-top: 2px solid;
-    border-radius: 0px;
 }
 
 /* buy button animation */
@@ -229,6 +241,8 @@ export default {
         transform: translate(0, 0);
     }
 }
+
+/* added to cart animation */
 .added-enter-from,
 .added-leave-to {
     opacity: 0;
