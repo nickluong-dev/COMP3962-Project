@@ -16,8 +16,13 @@
                     >Store</router-link
                 >
                 <p class="nav-item text-rose-100">|</p>
-                <router-link to="/" class="nav-item text-rose-100"
-                    >Cart</router-link
+                <router-link to="/cart" class="nav-item text-rose-100 flex"
+                    >Cart
+                    <div
+                        class="bg-white rounded w-4 h-4 cart-count flex justify-center items-center"
+                    >
+                        <span class="text-black">{{ cartSize }}</span>
+                    </div></router-link
                 >
             </section>
         </section>
@@ -28,7 +33,8 @@
 <script>
 import { fetchCharmander } from '@/utils/requests'
 import { reactive } from '@vue/reactivity'
-import { onBeforeMount } from '@vue/runtime-core'
+import { computed, onBeforeMount } from '@vue/runtime-core'
+import { useStore } from 'vuex'
 
 export default {
     setup() {
@@ -41,8 +47,14 @@ export default {
             state.charmander = data
         })
 
+        const store = useStore()
+        const cartSize = computed(() => {
+            return store.getters.cartSize
+        })
+
         return {
-            state
+            state,
+            cartSize
         }
     }
 }
@@ -66,5 +78,9 @@ export default {
 
 .pokemons {
     font-family: 'Pokemon Pixels 1';
+}
+
+.cart-count {
+    font-size: 0.5em;
 }
 </style>

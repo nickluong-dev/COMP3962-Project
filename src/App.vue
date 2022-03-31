@@ -4,8 +4,12 @@
         <div
             class="flex justify-center w-full min-h-screen pt-16 transition-all duration-150 ease-in-out md:pt-0 md:px-10"
         >
-            <div class="w-full py-6 pl-3 pr-3 lg:p-10 max-w-screen-2xl">
-                <RouterView />
+            <div class="w-full py-6 pl-3 pr-3 lg:p-10">
+                <RouterView v-slot="{ Component }">
+                    <transition name="route" mode="out-in">
+                        <component :is="Component"></component>
+                    </transition>
+                </RouterView>
             </div>
         </div>
     </div>
@@ -51,5 +55,23 @@ export default {
 
 #nav a.router-link-exact-active {
     color: #42b983;
+}
+
+.route-enter-from {
+    opacity: 0;
+    transform: translateX(-100px);
+}
+
+.route-enter-active {
+    transition: all 0.5s ease-out;
+}
+
+.route-leave-to {
+    opacity: 0;
+    transform: translateX(100px);
+}
+
+.route-leave-active {
+    transition: all 0.5s ease-out;
 }
 </style>

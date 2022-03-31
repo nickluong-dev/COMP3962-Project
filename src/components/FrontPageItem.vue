@@ -1,42 +1,39 @@
 <template>
     <div
-        class="w-52 border bg-white border-gray-200 border-opacity-100 rounded shadow-md transform hover:bg-amber-50"
+        class="w-64 border bg-white border-gray-200 border-opacity-100 rounded shadow-md transform hover:bg-amber-50"
     >
-        <div>
+        <div class="p-4">
             <div class="flex justify-center">
                 <transition name="added">
                     <div
                         v-show="state.added"
-                        class="rounded bg-rose-100 outline-black w-24 absolute text-body mt-1"
+                        class="rounded bg-rose-100 outline-black w-24 absolute text-body mt-10"
                     >
                         Added to cart!
                     </div>
                 </transition>
 
-                <transition name="load">
+                <transition-group name="load">
                     <img
-                        v-show="state.loaded"
-                        class="rounded-tl rounded-tr w-24 justify-center"
-                        :src="state.pokemonSprites"
+                        v-if="state.loaded"
+                        class="rounded-tl rounded-tr w-24 pt-3 justify-center"
+                        :src="state.pokemonSprite"
                     />
-                </transition>
+                    <div v-else class="h-24"></div>
+                </transition-group>
             </div>
 
-            <div class="m-3">
+            <div class="px-3 pb-3">
                 <section class="flex flex-col items-start">
+                    <hr class="round-line pb-2 w-full" />
                     <div class="text-name" v-if="state.pokemonInfo">
                         <div class="break-words text-left">
                             {{ state.pokemonInfo.name }}
                         </div>
                     </div>
                     <div class="text-price" v-if="state.pokemonInfo">
-                        ₽
-                        {{
-                            Math.floor(
-                                state.pokemonInfo.base_experience *
-                                    (state.pokemonInfo.weight * 0.1)
-                            )
-                        }}
+                        $
+                        {{ price }}
                     </div>
                 </section>
 
@@ -46,7 +43,7 @@
                             <button
                                 class="text-body bg-rose-200 rounded-sm px-2 py-1 tracking-tighter"
                                 :class="{ buy: state.animate }"
-                                @click="buy()"
+                                @click="buy(pokemon)"
                             >
                                 Buy
                             </button>
@@ -67,7 +64,7 @@
                             v-if="state.pokemonInfo"
                             class="text-body text-left pt-2"
                         >
-                            <hr class="round-line pb-2" />
+                            <!-- <hr class="round-line pb-2" /> -->
                             <div
                                 v-for="stats in state.pokemonInfo.stats"
                                 :key="stats"
@@ -85,10 +82,11 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { fetchPokemonData } from '@/utils/requests'
 import { onBeforeMount } from '@vue/runtime-core'
 import { reactive } from '@vue/reactivity'
+import { useStore } from 'vuex'
 
 export default {
     props: {
@@ -99,7 +97,7 @@ export default {
     setup(props) {
         const state = reactive({
             pokemonInfo: null,
-            pokemonSprites: null,
+            pokemonSprite: null,
             loaded: null,
             animate: false,
             added: false
@@ -109,15 +107,19 @@ export default {
             state.loaded = false
             const data = await fetchPokemonData(props.url)
             state.pokemonInfo = data
-            state.pokemonSprites = data.sprites.front_default
+            state.pokemonSprite = data.sprites.front_default
             state.loaded = true
         })
 
-        const capitalizedName = (s) => {
-            s.charAt(0).toUpperCase() + s.slice(1).toLowerCase()
+        const store = useStore()
+
+        const buy = (payload) => {
+            store.dispatch('add', payload)
+            console.log(store.state.cart)
+            buyAnimation()
         }
 
-        const buy = () => {
+        const buyAnimation = () => {
             state.added = true
             state.animate = !state.animate
             setTimeout(function () {
@@ -126,29 +128,49 @@ export default {
             }, 1500)
         }
 
+        const price = computed(() => {
+            return Math.floor(
+                state.pokemonInfo.base_experience *
+                    (state.pokemonInfo.weight * 0.1)
+            )
+        })
+
+        const pokemon = computed(() => {
+            return {
+                name: state.pokemonInfo.name,
+                price: price.value,
+                url: props.url,
+                spriteUrl: state.pokemonSprite,
+                data: state.pokemonInfo
+            }
+        })
+
         return {
             expanded: ref(false),
             state,
-            capitalizedName,
-            buy
+            pokemon,
+            buy,
+            price,
+            buyAnimation
         }
     }
 }
 </script>
 
 <style lang="css" scoped>
-.text-body {
+* {
     font-family: 'Pokemon Classic';
+}
+
+.text-body {
     font-size: 0.6em;
 }
 
 .text-price {
-    font-family: 'Pokemon Classic';
-    font-size: 0.8em;
+    font-size: 0.7em;
 }
 
 .text-name {
-    font-family: 'Pokemon Classic';
     font-size: 0.8em;
 }
 

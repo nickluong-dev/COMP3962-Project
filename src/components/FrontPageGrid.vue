@@ -13,7 +13,7 @@
     </transition>
 
     <div
-        class="grid md:grid-cols-3 gap-5 lg:grid-cols-4 sm: grid-cols-2 xl:grid-cols-5 2xl:grid-cols-6"
+        class="grid gap-5 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6"
     >
         <transition-group appear @before-enter="beforeEnter" @enter="enter">
             <Item
