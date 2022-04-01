@@ -20,6 +20,7 @@
 
             <button
                 class="text-body bg-rose-200 rounded-sm px-2 py-1 tracking-tighter"
+                @click="Checkout()"
             >
                 Checkout
             </button>
@@ -34,7 +35,7 @@
                     <div
                         class="w-full border bg-white border-gray-200 border-opacity-100 rounded shadow-md p-10 mb-3"
                         v-for="(item, index) in store.state.cart"
-                        :key="item['id']"
+                        :key="item"
                         :data-index="index"
                     >
                         <div class="flex justify-between">
@@ -80,6 +81,7 @@
 <script>
 import { computed, ref } from '@vue/runtime-core'
 import { useStore } from 'vuex'
+import { sendCheckout } from '@/utils/requests.js'
 
 export default {
     setup() {
@@ -87,6 +89,9 @@ export default {
 
         const remove = (payload) => {
             store.dispatch('remove', payload)
+        }
+        const removeAll = () => {
+            store.dispatch('removeAll')
         }
 
         const total = computed(() => {
@@ -96,11 +101,33 @@ export default {
             })
             return total
         })
+
+        // json to be written to database
+        const purchase = computed(() => {
+            return {
+                uid: Date.now().toString(),
+                content: store.state.cart
+            }
+        })
+
+        const Checkout = () => {
+            // cart has pokemondata which is too big to write to database
+            // remove it from cart
+            purchase.value.content.forEach(function (item) {
+                delete item.data
+            })
+            if (Object.keys(store.state.cart).length > 0) {
+                sendCheckout(JSON.stringify(purchase.value))
+            }
+            // clear cart
+            removeAll()
+        }
+
         return {
             store,
             total,
             remove,
-
+            Checkout,
             removing: ref(false)
         }
     }

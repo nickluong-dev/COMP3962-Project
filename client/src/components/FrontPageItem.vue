@@ -114,7 +114,6 @@ export default {
         const store = useStore()
 
         const buy = (payload) => {
-            payload.id = uid()
             store.dispatch('add', payload)
 
             buyAnimation()
@@ -145,17 +144,6 @@ export default {
                 data: state.pokemonInfo
             }
         })
-
-        const uid = () => {
-            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(
-                /[xy]/g,
-                function (c) {
-                    var r = (Math.random() * 16) | 0,
-                        v = c == 'x' ? r : (r & 0x3) | 0x8
-                    return v.toString(16)
-                }
-            )
-        }
 
         return {
             expanded: ref(false),

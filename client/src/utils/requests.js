@@ -29,3 +29,26 @@ export async function fetchCharmander() {
     )
     return response
 }
+
+export async function sendCheckout(body) {
+    const options = {
+        method: 'POST',
+        body: body,
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          }
+    }
+    // console.log(body);
+    fetch(
+        'http://Cloudprojecttestapi-env.eba-eeyupmww.us-west-2.elasticbeanstalk.com/purchases',
+        options
+    )
+        .then((data) => {
+            return data.json()
+        })
+        .then((res) => {
+            console.log(res)
+        })
+        .catch((error) => console.log(error))
+}

@@ -24,13 +24,10 @@ router.get("/all", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
+  console.log(req.body);
   const params = {
     TableName: dynamodbTableName,
-    Item: {
-      uid: "1000",
-      color: "red",
-      price: 100,
-    },
+    Item: req.body,
   };
   await dynamodb
     .put(params)
@@ -59,6 +56,7 @@ async function scanDynamoRecords(scanParams, array) {
       scanParams.ExclusiveStartKey = dynamoData.LastEvaluatedKey;
       return await scanDynamoRecords(scanParams, array);
     }
+    return array;
   } catch (error) {
     throw new Error(error);
   }
