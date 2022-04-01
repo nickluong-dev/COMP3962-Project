@@ -5,12 +5,15 @@
         >
             <div class="font-bold pb-4">Hello trainer. Here is your cart!</div>
             <div class="mb-3">Items:</div>
-            <div v-for="item in store.state.cart" :key="item" class="ml-10">
-                <div class="flex justify-between">
-                    <div>>> {{ item['name'] }}</div>
-                    <div>${{ item['price'] }}</div>
+            <transition-group name="fade">
+                <div v-for="item in store.state.cart" :key="item" class="ml-10">
+                    <div class="flex justify-between">
+                        <div>>> {{ item['name'] }}</div>
+                        <div>${{ item['price'] }}</div>
+                    </div>
                 </div>
-            </div>
+            </transition-group>
+
             <hr class="round-line my-3 w-full" />
 
             <div class="flex justify-between mt-3 mb-5">
@@ -24,6 +27,17 @@
             >
                 Checkout
             </button>
+        </div>
+
+        <div>
+            <transition name="complete">
+                <div
+                    v-show="state.complete"
+                    class="rounded bg-rose-100 outline-black w-24 absolute text-body mt-10"
+                >
+                    Purchase Complete!
+                </div>
+            </transition>
         </div>
 
         <transition name="fade" mode="out-in">
@@ -79,12 +93,15 @@
 </template>
 
 <script>
-import { computed, ref } from '@vue/runtime-core'
+import { computed, reactive } from '@vue/runtime-core'
 import { useStore } from 'vuex'
 import { sendCheckout } from '@/utils/requests.js'
 
 export default {
     setup() {
+        const state = reactive({
+            complete: false
+        })
         const store = useStore()
 
         const remove = (payload) => {
@@ -101,6 +118,13 @@ export default {
             })
             return total
         })
+
+        const completeAnimation = () => {
+            state.complete = true
+            setTimeout(function () {
+                state.complete = false
+            }, 5000)
+        }
 
         // json to be written to database
         const purchase = computed(() => {
@@ -121,6 +145,7 @@ export default {
             }
             // clear cart
             removeAll()
+            completeAnimation()
         }
 
         return {
@@ -128,7 +153,7 @@ export default {
             total,
             remove,
             Checkout,
-            removing: ref(false)
+            state
         }
     }
 }
@@ -184,5 +209,16 @@ export default {
 
 .fade-leave-active {
     transition: all 0.5s ease-out;
+}
+
+.complete-enter-from,
+.complete-leave-to {
+    opacity: 0;
+    transform: translateX(-20px);
+}
+
+.complete-enter-active,
+.complete-leave-active {
+    transition: all 2s cubic-bezier(0.12, 1, 0.83, 0.67);
 }
 </style>

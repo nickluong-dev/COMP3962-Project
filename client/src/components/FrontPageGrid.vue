@@ -1,29 +1,31 @@
 <template>
-    <transition appear @before-enter="beforeEnter" @enter="enter">
-        <div class="flex justify-center">
-            <button class="refresh flex" @click=";[animate(), refresh()]">
-                Refresh!
-                <img
-                    class="mb-3 w-6 ml-3"
-                    :class="{ masterball: state.animate }"
-                    src="@/assets/masterball.png"
-                />
-            </button>
-        </div>
-    </transition>
+    <section>
+        <transition appear @before-enter="beforeEnter" @enter="enter">
+            <div class="flex justify-center">
+                <button class="refresh flex" @click=";[animate(), refresh()]">
+                    Refresh!
+                    <img
+                        class="mb-3 w-6 ml-3"
+                        :class="{ masterball: state.animate }"
+                        src="@/assets/masterball.png"
+                    />
+                </button>
+            </div>
+        </transition>
 
-    <div
-        class="grid gap-5 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6"
-    >
-        <transition-group appear @before-enter="beforeEnter" @enter="enter">
-            <Item
-                v-for="(Item, index) in state.pokemons.results"
-                :key="Item"
-                :url="Item.url"
-                :data-index="index"
-            ></Item>
-        </transition-group>
-    </div>
+        <div
+            class="grid gap-5 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6"
+        >
+            <transition-group appear @before-enter="beforeEnter" @enter="enter">
+                <Item
+                    v-for="(Item, index) in state.pokemons.results"
+                    :key="Item"
+                    :url="Item.url"
+                    :data-index="index"
+                ></Item>
+            </transition-group>
+        </div>
+    </section>
 </template>
 
 <script>
