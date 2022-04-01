@@ -4,14 +4,14 @@ import FrontPage from "../views/FrontPage.vue";
 const routes = [
   {
     path: "/",
-    name: "Fronte",
+    name: "Front",
     component: FrontPage,
   },
 ];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes,
+  routes
 });
 
 export default router;
