@@ -3,11 +3,15 @@ import { createStore } from 'vuex'
 export default createStore({
     state: {
         cart: [],
-        count: 23
+        count: 23,
+        search: null
     },
     getters: {
         cartSize: (state) => {
             return Object.keys(state.cart).length
+        },
+        search: (state) => {
+            return state.search
         }
     },
     mutations: {
@@ -20,6 +24,9 @@ export default createStore({
         },
         removeAll(state) {
             state.cart = []
+        },
+        storeSearch(state, payload) {
+            state.search = payload
         }
     },
     actions: {
@@ -32,6 +39,9 @@ export default createStore({
         },
         removeAll: (context) => {
             context.commit('removeAll')
+        },
+        storeSearch: (context, payload) => {
+            context.commit('storeSearch', payload)
         }
     }
 })

@@ -23,6 +23,17 @@ export async function fetchPokemonData(url) {
     return response
 }
 
+export async function fetchSearchedPokemon(name) {
+    try {
+        const response = await axios.get(
+            `https://pokeapi.co/api/v2/pokemon/${name}`
+        )
+        return response.data
+    } catch (error) {
+        return null
+    }
+}
+
 export async function fetchCharmander() {
     const response = await getFetch(
         'https://pokeapi.co/api/v2/pokemon/charmander'
@@ -35,9 +46,9 @@ export async function sendCheckout(body) {
         method: 'POST',
         body: body,
         headers: {
-            'Accept': 'application/json',
+            Accept: 'application/json',
             'Content-Type': 'application/json'
-          }
+        }
     }
     // console.log(body);
     fetch(
