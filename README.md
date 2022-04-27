@@ -10,7 +10,7 @@ PokeMart is a simple eCommerce store. Users can "buy" Pokemon and add them to a 
 - AWS Beanstalk
 - AWS DynamoDB
 
-## Future Improvements
+## Future Improvements / Issues
 - Implement user authentication
 - Allow users to view past purchases
 - Improve database security
