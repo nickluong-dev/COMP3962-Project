@@ -3,6 +3,8 @@ This was a class project part of BCIT's Cloud Computing Platforms class (COMP 39
 
 PokeMart is a simple eCommerce store. Users can "buy" Pokemon and add them to a cart. On checkout, Pokemon are written to a database.
 
+![pokemart_demo](https://media.giphy.com/media/dqSAvEEtJRfU4k14vM/giphy.gif)
+
 ## Technologies Used
 - Vue
 - AWS CloudFront
